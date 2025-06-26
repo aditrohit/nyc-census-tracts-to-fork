@@ -17,7 +17,7 @@ df <- read_csv("data/nyc_tracts.csv")
 
 
 ```{r}
-#df_clean <- df %>% filter(is.finite(med_income))
+df_clean <- df %>% filter(is.finite(med_income))
 
 ggplot(df_clean, aes(x = race, y = med_income)) +
   geom_boxplot(fill = "lightblue") +
@@ -27,4 +27,6 @@ ggplot(df_clean, aes(x = race, y = med_income)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
+
 ```
+
