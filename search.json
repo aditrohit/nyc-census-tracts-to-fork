@@ -1,12 +1,5 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Census Tracts",
-    "section": "",
-    "text": "Warning: Removed 41 rows containing non-finite outside the scale range\n(`stat_boxplot()`)."
-  },
-  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
