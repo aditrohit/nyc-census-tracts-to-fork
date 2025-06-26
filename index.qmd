@@ -10,6 +10,8 @@ execute:
 #| message: false
 #| warning: false
 library(tidyverse)
+library(ggthemes)
+library(viridis)
 
 df <- read_csv("data/nyc_tracts.csv")
 
@@ -17,15 +19,33 @@ df <- read_csv("data/nyc_tracts.csv")
 
 
 ```{r}
-df_clean <- df %>% filter(is.finite(med_income))
-
-ggplot(df_clean, aes(x = race, y = med_income)) +
-  geom_boxplot(fill = "lightblue") +
-  labs(title = "Median Income by Race",
-       x = "Race",
-       y = "Median Income (USD)") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+# Clean and visualize median income by race
+df %>%
+  filter(is.finite(med_income)) %>%
+  mutate(
+    race = fct_reorder(race, med_income, .fun = median, .desc = TRUE)
+  ) %>%
+  ggplot(aes(x = race, y = med_income, fill = race)) +
+  geom_jitter(width = 0.15, alpha = 0.1, color = "black") +   # light scatter points
+  geom_boxplot(alpha = 0.8, outlier.shape = NA) +             # no outlier dots
+  scale_fill_viridis_d(option = "C") +
+  scale_y_continuous(labels = scales::dollar_format()) +
+  labs(
+    title = "🗽 NYC Median Income by Race",
+    subtitle = "Based on Census Tract-Level Data",
+    x = NULL,
+    y = "Median Income (USD)",
+    caption = "Source: NYC Census Tracts"
+  ) +
+  theme_minimal(base_family = "Helvetica") +
+  theme(
+    legend.position = "none",
+    plot.title = element_text(face = "bold", size = 18),
+    plot.subtitle = element_text(size = 13, color = "gray30"),
+    axis.text.x = element_text(angle = 25, hjust = 1),
+    axis.title.y = element_text(size = 12),
+    plot.caption = element_text(color = "gray50", size = 9)
+  )
 
 
 ```
